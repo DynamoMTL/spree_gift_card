@@ -43,6 +43,7 @@ module Spree
       transaction.amount = amount
       transaction.order  = order
       self.current_value = self.current_value - amount.abs
+      self.amount = current_value
       self.save
     end
 
