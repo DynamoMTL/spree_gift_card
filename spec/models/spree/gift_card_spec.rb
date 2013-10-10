@@ -56,8 +56,20 @@ describe Spree::GiftCard do
 
   context '#apply' do
     let(:gift_card) { create(:gift_card, variant: create(:variant, price: 25)) }
+    let(:gift_card2) { create(:gift_card, variant: create(:variant, price: 15)) }
 
     it 'creates adjustment with mandatory set to true' do
+      order = create(:order_with_totals)
+      create(:line_item, order: order, price: 75, variant: create(:variant, price: 75))
+      order.reload # reload so line item is associated
+      order.update!
+      gift_card.apply(order)
+      gift_card2.apply(order)
+
+      order.adjustments.gift_card.count.should == 1
+    end
+
+    it 'removes a previous adjustment before applying a new one' do
       order = create(:order_with_totals)
       create(:line_item, order: order, price: 75, variant: create(:variant, price: 75))
       order.reload # reload so line item is associated

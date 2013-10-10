@@ -1,5 +1,6 @@
 # Setup simplecov first to make sure coverage happens through everything.
 require 'simplecov'
+require 'pry'
 SimpleCov.start do
   add_filter '/config/'
   add_group 'Controllers', 'app/controllers'

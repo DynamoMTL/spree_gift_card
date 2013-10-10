@@ -34,4 +34,9 @@ Spree::Order.class_eval do
     adjustments.gift_card.reload.detect{ |credit| credit.originator_id == gift_card.id }.present?
   end
 
+  def remove_existing_gift_card_credits
+    adjustments.gift_card.reload.delete_all
+  end
+
+
 end
