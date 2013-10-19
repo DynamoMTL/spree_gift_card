@@ -55,6 +55,7 @@ module Spree
     end
 
     def order_activatable?(order)
+      original_order.complete? &&
       order &&
       current_value > 0 &&
       !UNACTIVATABLE_ORDER_STATES.include?(order.state)

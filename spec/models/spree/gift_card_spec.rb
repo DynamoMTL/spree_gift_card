@@ -36,7 +36,7 @@ describe Spree::GiftCard do
   end
 
   context '#activatable?' do
-    let(:gift_card) { create(:gift_card, variant: create(:variant, price: 25)) }
+    let(:gift_card) { create(:gift_card, original_order: create(:completed_order_with_totals), variant: create(:variant, price: 25)) }
 
     it 'should be activatable if created before order, has current value, and order state valid' do
       gift_card.order_activatable?(mock_model(Spree::Order, state: 'cart', created_at: (gift_card.created_at + 1.second))).should be_true
@@ -52,6 +52,11 @@ describe Spree::GiftCard do
     end
 
     it 'should not be activatable if invalid order state' do
+      gift_card.order_activatable?(mock_model(Spree::Order, state: 'complete', created_at: (gift_card.created_at + 1.second))).should be_false
+    end
+
+    it 'should not be activatable if original order is not complete' do
+      gift_card.original_order.stub(state: 'cart')
       gift_card.order_activatable?(mock_model(Spree::Order, state: 'complete', created_at: (gift_card.created_at + 1.second))).should be_false
     end
   end
