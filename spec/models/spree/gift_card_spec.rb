@@ -29,6 +29,7 @@ describe Spree::GiftCard do
       'note',
       'variant_id',
       'amount',
+      'order_id',
       'calculator_type',
       'calculator_attributes'
     ])

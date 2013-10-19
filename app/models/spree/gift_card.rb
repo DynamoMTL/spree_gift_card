@@ -6,7 +6,7 @@ module Spree
     UNACTIVATABLE_ORDER_STATES = ["complete", "awaiting_return", "returned"]
 
     attr_accessor :amount
-    attr_accessible :email, :name, :note, :variant_id, :amount
+    attr_accessible :email, :name, :note, :variant_id, :amount, :order_id
 
     belongs_to :order
     belongs_to :variant
