@@ -17,6 +17,9 @@
       <th><%= t(:email) %></th>
       <th><%= t(:name) %></th>
       <th><%= t(:note) %></th>
+      <th><%= t(:from) %></th>
+      <th><%= t(:order) %></th>
+
       <th class="actions"></th>
     </tr>
   </thead>
@@ -28,6 +31,8 @@
         <td><%= number_to_currency card.current_value %></td>
         <td><%= card.email %></td>
         <td><%= card.name %></td>
+        <td><%= card.note %></td>
+        <td><%= card.note %></td>
         <td><%= card.note %></td>
         <td class="actions">
           <%= link_to_edit card %> &nbsp;

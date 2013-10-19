@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Spree::GiftCard do
 
   it {should have_many(:transactions)}
+  it {should belong_to(:order)}
 
   it {should validate_presence_of(:current_value)}
   it {should validate_presence_of(:email)}
@@ -99,6 +100,15 @@ describe Spree::GiftCard do
         order.adjustments.find_by_originator_id_and_originator_type(gift_card.id, gift_card.class.to_s).amount.to_f.should eql(-10.0)
       end
     end
+  end
+
+  context '#sender' do
+    let(:gift_card) { create(:gift_card, variant: create(:variant, price: 25)) }
+
+    it "should know who sent it" do
+      
+    end
+    
   end
 
   context '#debit' do
