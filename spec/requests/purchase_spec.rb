@@ -71,10 +71,9 @@ feature "Purchase Gift Card", js: true do
     # To payment screen
     click_button "Save and Continue"
 
-    ActionMailer::Base.deliveries.size.should == 0
+    Delayed::Job.count.should == 0
     click_button "Save and Continue"
-    ActionMailer::Base.deliveries[1].subject.should eql('Spree Demo Site Gift Card')
-    ActionMailer::Base.deliveries.size.should == 2 # Order Confirmation & Gift Card Delivery
+    Delayed::Job.count.should == 1
   end
 
   scenario 'removing line item from cart should destroy gift card' do

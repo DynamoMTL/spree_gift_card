@@ -3,7 +3,7 @@ Spree::OrderMailer.class_eval do
     @gift_card = card
     @order = order
     bcc ||= []
-    subject = "#{order.name} got you a Blue Bottle Coffee gift card!"
+    subject = "#{order.name} got you a #{Spree::Config[:site_name]} gift card!"
     @gift_card.update_attribute(:sent_at, Time.now)
     mail(to: card.email, from: from_address, subject: subject, bcc: bcc)
   end
