@@ -8,7 +8,7 @@ module Spree
     attr_accessor :amount
     attr_accessible :email, :name, :note, :variant_id, :amount, :order_id
 
-    belongs_to :order
+    belongs_to :original_order, class_name: 'Order', foreign_key: 'order_id'
     belongs_to :variant
     belongs_to :line_item
 

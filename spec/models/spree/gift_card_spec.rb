@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Spree::GiftCard do
 
   it {should have_many(:transactions)}
-  it {should belong_to(:order)}
+  it {should belong_to(:original_order)}
 
   it {should validate_presence_of(:current_value)}
   it {should validate_presence_of(:email)}
