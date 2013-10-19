@@ -29,4 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'pry'
+  s.add_development_dependency 'honeybadger'
+  s.add_development_dependency 'delayed_job_active_record'
 end

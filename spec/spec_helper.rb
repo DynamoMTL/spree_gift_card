@@ -1,6 +1,9 @@
 # Setup simplecov first to make sure coverage happens through everything.
 require 'simplecov'
 require 'pry'
+require 'honeybadger'
+require 'delayed_job_active_record'
+
 SimpleCov.start do
   add_filter '/config/'
   add_group 'Controllers', 'app/controllers'
