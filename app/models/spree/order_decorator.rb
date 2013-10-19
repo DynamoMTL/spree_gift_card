@@ -15,11 +15,14 @@ Spree::Order.class_eval do
     finalize_without_gift_card!
     # Send out emails for any newly purchased gift cards.
     self.line_items.each do |li|
-      begin
-        Spree::OrderMailer.delay.gift_card_email(li.gift_card, self) if li.gift_card
-      rescue => e
-        Honeybadger.notify(e)
-      end
+      # begin
+        if li.gift_card
+          li.gift_card.update_column(:order_id, self.id)
+          Spree::OrderMailer.delay.gift_card_email(li.gift_card, self)
+        end
+      # rescue => e
+      #   Honeybadger.notify(e)
+      # end
     end
     # Record any gift card redemptions.
     self.adjustments.where(originator_type: 'Spree::GiftCard').each do |adjustment|

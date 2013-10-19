@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::Order do
 
-  let(:gift_card) { create(:gift_card, original_order: create(:completed_order_with_totals), variant: create(:variant, price: 25, product: create(:product, is_gift_card: true))) }
+  let(:gift_card) { create(:gift_card, variant: create(:variant, price: 25, product: create(:product, is_gift_card: true))) }
 
   it '#find_line_item_by_variant should return false if variant is gift card' do
     subject.find_line_item_by_variant(gift_card.variant).should eql(false)
@@ -30,8 +30,8 @@ describe Spree::Order do
         order.line_items = [create(:line_item, gift_card: gift_card, order: order, price: 25, variant: gift_card.variant)]
         order.reload # reload so line item is associated
         order.update!
-        gift_card.original_order.should_not be_nil
         order.finalize!
+        gift_card.reload.original_order.should_not be_nil
         Delayed::Job.count.should == 1
       end
     end
