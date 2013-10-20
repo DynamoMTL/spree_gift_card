@@ -76,4 +76,14 @@ feature "Admin Gift Card Administration", js: true do
     end
   end
 
+  scenario 'list original order details' do
+    original_order = create(:completed_order_with_totals)
+    create :gift_card, name: 'For Bryan from Alex', original_order: original_order
+    visit spree.admin_gift_cards_path
+    within 'table.index' do
+      page.should have_content(original_order.email)
+      page.should have_content(original_order.number)
+    end
+  end
+
 end
