@@ -14,9 +14,10 @@
     <% end %>
   </div>
 
+
   <div class="clear"></div>
 
-  <div class="alpha five columns">
+  <div class="alpha ten columns">
     <%= f.field_container :note do %>
       <%= f.label :note %>
       <%= f.text_field :note, :class => "fullwidth" %>
@@ -24,10 +25,20 @@
     <% end %>
   </div>
 
-  <div class="omega five columns">
+  <div class="clear"></div>
+
+  <div class="alpha five columns">
     <%= f.field_container :variant_id do %>
       <%= f.label :variant_id, t(:value) %> <span class="required">*</span><br/>
       <%= f.select :variant_id, @gift_card_variants.map { |v| [number_to_currency(v.price), v.id] }, {}, disabled: (f.object.present? && !f.object.new_record?), :class => 'select2' %>
+    <% end %>
+  </div>
+
+  <div class="omega five columns">
+    <%= f.field_container :amount do %>
+      <%= f.label :amount %> <span class="required">*</span><br/>
+      <%= f.text_field :amount, :class => "fullwidth" %>
+      <%= f.error_message_on :amount %>
     <% end %>
   </div>
 </div>

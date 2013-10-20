@@ -24,11 +24,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'factory_girl', '~> 3.6'# '~> 4.1' # cant use 4.1 until Spree's factories are compatible maybe in 1.3.x
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'rspec-rails',  '~> 2.11'
+  s.add_development_dependency 'launchy'
   s.add_development_dependency 'sass-rails'
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'honeybadger'
+  s.add_development_dependency 'capybara-select2'
   s.add_development_dependency 'delayed_job_active_record'
 end

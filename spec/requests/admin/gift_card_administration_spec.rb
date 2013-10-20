@@ -26,7 +26,7 @@ feature "Admin Gift Card Administration", js: true do
     fill_in 'gift_card[email]', with: 'spree@example.com'
     fill_in 'gift_card[name]', with: 'First Last'
     fill_in 'gift_card[note]', with: 'Test message.'
-    select '$50.00', from: 'gift_card[variant_id]'
+    fill_in 'gift_card[amount]', with: 50
     click_button 'Create'
     page.should have_content('You have successfully created the gift card.')
     within 'table.index' do
@@ -42,7 +42,7 @@ feature "Admin Gift Card Administration", js: true do
     fill_in 'gift_card[email]', with: 'example.com'
     fill_in 'gift_card[name]', with: 'First Last'
     fill_in 'gift_card[note]', with: 'Test message.'
-    select '$50.00', from: 'gift_card[variant_id]'
+    fill_in 'gift_card[amount]', with: 50
     click_button 'Create'
     page.should have_css('.field_with_errors #gift_card_email')
     Spree::GiftCard.count.should eql(0)
@@ -68,7 +68,7 @@ feature "Admin Gift Card Administration", js: true do
     fill_in 'gift_card[email]', with: 'spree@example.com'
     fill_in 'gift_card[name]', with: 'First Last'
     fill_in 'gift_card[note]', with: 'Test message.'
-    select '$50.00', from: 'gift_card[variant_id]'
+    fill_in 'gift_card[amount]', with: 50
     click_button 'Update'
     page.should have_content("Gift card \"First Last\" has been successfully updated!")
     within 'table.index' do

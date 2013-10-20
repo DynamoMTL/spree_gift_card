@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Checkout", js: true do
 
   before do
-    create(:gift_card, code: "foobar", variant: create(:variant, price: 25))
+    create(:gift_card, original_order: create(:completed_order_with_totals), code: "foobar", variant: create(:variant, price: 25))
     country = create(:country, name: "United States")
     create(:state, name: "Alaska", country: country)
     zone = create(:zone, zone_members: [Spree::ZoneMember.create(zoneable: country)])
@@ -31,14 +31,6 @@ describe "Checkout", js: true do
       end
     end
 
-    it "cannot enter a gift code that was created after the order" do
-      Spree::GiftCard.first.update_attribute(:created_at, 1.day.from_now)
-      fill_in "order[gift_code]", :with => "foobar"
-      click_button "Update"
-      wait_until do
-        page.should have_content("The gift code you entered doesn't exist. Please try again.")
-      end
-    end
   end
 
   context "visitor makes checkout as guest without registration" do
