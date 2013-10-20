@@ -109,12 +109,11 @@ describe Spree::GiftCard do
   end
 
   context '#sender' do
-    let(:gift_card) { create(:gift_card, variant: create(:variant, price: 25)) }
+    let(:gift_card) { create(:gift_card, original_order: create(:completed_order_with_totals), variant: create(:variant, price: 25)) }
 
     it "should know who sent it" do
-      
+      gift_card.sender.should_not be_nil
     end
-    
   end
 
   context '#debit' do

@@ -61,6 +61,10 @@ module Spree
       !UNACTIVATABLE_ORDER_STATES.include?(order.state)
     end
 
+    def sender
+      original_order.email
+    end
+
     private
 
     def generate_code
