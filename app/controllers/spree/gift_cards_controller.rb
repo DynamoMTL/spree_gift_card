@@ -22,7 +22,7 @@ module Spree
           # Add to order
           order = current_order(true)
           order.line_items << line_item
-          line_item.order=order
+          line_item.order = order
           order.save!
           # Save gift card
           @gift_card.line_item = line_item

@@ -19,6 +19,7 @@
       <th><%= t(:note) %></th>
       <th><%= t(:from) %></th>
       <th><%= t(:order) %></th>
+      <th><%= t(:redeemable) %></th>
 
       <th class="actions"></th>
     </tr>
@@ -32,8 +33,9 @@
         <td><%= card.email %></td>
         <td><%= card.name %></td>
         <td><%= card.note %></td>
-        <td><%= card.original_order.email %></td>
-        <td><%= card.original_order.number %></td>
+        <td><%= card.sender %></td>
+        <td><%= card.order_number %></td>
+        <td><%= card.redeemable? %></td>
         <td class="actions">
           <%= link_to_edit card %> &nbsp;
           <%= link_to_delete card %>

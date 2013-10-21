@@ -55,14 +55,22 @@ module Spree
     end
 
     def order_activatable?(order)
-      original_order.complete? &&
+      redeemable? &&
       order &&
       current_value > 0 &&
       !UNACTIVATABLE_ORDER_STATES.include?(order.state)
     end
 
     def sender
-      original_order.email
+      original_order.present? ? original_order.email : ''
+    end
+
+    def order_number
+      original_order.present? ? original_order.number : ''
+    end
+
+    def redeemable?
+      (original_order && original_order.complete?) || admin_created?
     end
 
     private

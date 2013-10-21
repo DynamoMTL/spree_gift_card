@@ -5,6 +5,7 @@ module Spree
 
       def create
         @object.attributes = params[object_name]
+        @object.admin_created = true
         if @object.save
           flash[:success] = I18n.t(:successfully_created_gift_card)
           redirect_to admin_gift_cards_path

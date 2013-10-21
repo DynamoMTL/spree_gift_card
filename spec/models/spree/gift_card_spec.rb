@@ -37,9 +37,14 @@ describe Spree::GiftCard do
 
   context '#activatable?' do
     let(:gift_card) { create(:gift_card, original_order: create(:completed_order_with_totals), variant: create(:variant, price: 25)) }
+    let(:admin_gift_card) { create(:gift_card, admin_created: true, variant: create(:variant, price: 25)) }
 
     it 'should be activatable if created before order, has current value, and order state valid' do
       gift_card.order_activatable?(mock_model(Spree::Order, state: 'cart', created_at: (gift_card.created_at + 1.second))).should be_true
+    end
+
+    it "should be activatable if created in the admin" do
+      admin_gift_card.order_activatable?(mock_model(Spree::Order, state: 'cart', created_at: (gift_card.created_at + 1.second))).should be_true
     end
 
     it 'should not be activatable if created after order' do
