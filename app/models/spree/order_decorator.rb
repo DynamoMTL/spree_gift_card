@@ -31,6 +31,15 @@ Spree::Order.class_eval do
   end
   alias_method_chain :finalize!, :gift_card
 
+  # cancelling and order should wipe out any associated gift cards
+  def after_cancel_with_gift_card
+    after_cancel_without_gift_card
+    Spree::GiftCard.where(order_id: self.id).each do |gift_card|
+      gift_card.update_column(:current_value, 0)
+    end
+  end
+  alias_method_chain :after_cancel, :gift_card
+
   # Tells us if there is the specified gift code already associated with the order
   # regardless of whether or not its currently eligible.
   def gift_credit_exists?(gift_card)

@@ -50,4 +50,19 @@ describe Spree::Order do
 
   end
 
+  context '#cancel!' do
+    let(:order) { create(:completed_order_with_totals)}
+    let(:gift_card) { create(:gift_card, original_order: order, variant: create(:variant, price: 25)) }
+    let(:gift_card2) { create(:gift_card, original_order: order, variant: create(:variant, price: 25)) }
+
+    it "should set the current value of an associated gift card to 0 when cancelling" do
+      gift_card.current_value.should == 25
+      gift_card2.current_value.should == 25
+      order.cancel!
+      gift_card.reload.current_value.to_f.should == 0
+      gift_card2.reload.current_value.to_f.should == 0
+    end
+
+  end
+
 end
