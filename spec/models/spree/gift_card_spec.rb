@@ -142,4 +142,8 @@ describe Spree::GiftCard do
     end
   end
 
+  context '#list_redeemable_by_email' do
+    pending "implemented, need tests"
+  end
+
 end
