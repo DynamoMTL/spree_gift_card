@@ -86,8 +86,8 @@ module Spree
     end
 
     def set_values
-      self.current_value  = self.variant.try(:price)
-      self.original_value = self.variant.try(:price)
+      self.current_value = @amount.nil? ? self.variant.try(:price) : @amount
+      self.original_value = @amount.nil? ? self.variant.try(:price) : @amount
     end
 
   end
