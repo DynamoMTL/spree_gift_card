@@ -173,4 +173,18 @@ describe Spree::GiftCard do
 
   end
 
+  context "code length" do
+    it "should be 21" do
+      card = Spree::GiftCard.create(:email => "test@mail.com", :name => "John", :variant_id => create(:variant).id)
+
+      expect(card.code.length).to eq 21
+    end
+
+    it "should be 15 if we set ENV['GIFT_CARD_CODE_LENGTH']=15" do
+      ENV['GIFT_CARD_CODE_LENGTH'] = "15"
+      card = Spree::GiftCard.create(:email => "test@mail.com", :name => "John", :variant_id => create(:variant).id)
+
+      expect(card.code.length).to eq 15
+    end
+  end
 end
