@@ -146,4 +146,17 @@ describe Spree::GiftCard do
     pending "implemented, need tests"
   end
 
+  context "#find_by_code" do
+    subject(:gift_card) { Spree::GiftCard.create(:email => "test@mail.com", :name => "John", :variant_id => create(:variant).id) }
+
+    it "Card should be found by it's code" do
+      expect(Spree::GiftCard.find_by_code(gift_card.code)).to_not be_nil
+    end
+
+    it "Card should be found by code with capital letters" do
+      code = gift_card.code.upcase
+      expect(Spree::GiftCard.find_by_code(code)).to_not be_nil
+    end
+  end
+
 end

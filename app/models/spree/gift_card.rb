@@ -77,6 +77,10 @@ module Spree
       self.where(email: email).order('created_at DESC').select { |card| card.redeemable? }
     end
 
+    def self.find_by_code(code)
+      where(code: code.downcase)
+    end
+
     private
 
     def generate_code
