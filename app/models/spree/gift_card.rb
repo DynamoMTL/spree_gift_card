@@ -73,6 +73,14 @@ module Spree
       (original_order && original_order.complete?) || admin_created?
     end
 
+    def self.list_redeemable_by_email(email)
+      self.where(email: email).order('created_at DESC').select { |card| card.redeemable? }
+    end
+
+    def self.find_by_code(code)
+      where(code: code.downcase).first
+    end
+
     private
 
     def generate_code
