@@ -157,6 +157,12 @@ describe Spree::GiftCard do
       code = gift_card.code.upcase
       expect(Spree::GiftCard.find_by_code(code)).to_not be_nil
     end
+
+    it "Card has same code" do
+      code = gift_card.code.upcase
+      expect(Spree::GiftCard.find_by_code(code).code).to eq gift_card.code
+    end
+
   end
 
 end

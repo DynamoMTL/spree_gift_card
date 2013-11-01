@@ -78,7 +78,7 @@ module Spree
     end
 
     def self.find_by_code(code)
-      where(code: code.downcase)
+      where(code: code.downcase).first
     end
 
     private
