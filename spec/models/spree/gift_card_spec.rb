@@ -55,6 +55,12 @@ describe Spree::GiftCard do
         gift_card_with_expiration.expired?.should be true
       end
     end
+
+    it 'should not be expired on the same day as the expiration day' do
+      Timecop.freeze(2013, 11, 24) do
+        gift_card_with_expiration.expired?.should be false
+      end
+    end
   end
 
   context '#activatable?' do
