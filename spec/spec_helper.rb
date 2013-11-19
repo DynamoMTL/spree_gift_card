@@ -3,6 +3,7 @@ require 'simplecov'
 require 'pry'
 require 'honeybadger'
 require 'delayed_job_active_record'
+require 'timecop'
 
 SimpleCov.start do
   add_filter '/config/'

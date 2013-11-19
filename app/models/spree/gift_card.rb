@@ -6,7 +6,7 @@ module Spree
     UNACTIVATABLE_ORDER_STATES = ["complete", "awaiting_return", "returned"]
 
     attr_accessor :amount
-    attr_accessible :email, :name, :note, :variant_id, :amount, :order_id
+    attr_accessible :email, :name, :note, :variant_id, :amount, :order_id, :expired_on
 
     belongs_to :original_order, class_name: 'Order', foreign_key: 'order_id'
     belongs_to :variant
@@ -71,6 +71,11 @@ module Spree
 
     def redeemable?
       (original_order && original_order.complete?) || admin_created?
+    end
+
+    def expired?
+      return false if expired_on.nil?
+      expired_on < Date.today
     end
 
     def self.list_redeemable_by_email(email)
