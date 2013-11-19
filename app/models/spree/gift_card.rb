@@ -70,7 +70,7 @@ module Spree
     end
 
     def redeemable?
-      (original_order && original_order.complete?) || admin_created?
+      !expired? && ((original_order && original_order.complete?) || admin_created?)
     end
 
     def expired?

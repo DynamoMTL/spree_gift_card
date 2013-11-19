@@ -92,6 +92,11 @@ describe Spree::GiftCard do
       gift_card.original_order.stub(state: 'cart')
       gift_card.order_activatable?(mock_model(Spree::Order, state: 'complete', created_at: (gift_card.created_at + 1.second))).should be_false
     end
+
+    it 'should not be activatable if card is expired' do
+      gift_card.stub :expired? => true
+      gift_card.order_activatable?(mock_model(Spree::Order, state: 'cart', created_at: (gift_card.created_at + 1.second))).should be_false
+    end
   end
 
   context '#apply' do
