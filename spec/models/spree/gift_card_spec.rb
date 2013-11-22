@@ -21,6 +21,14 @@ describe Spree::GiftCard do
     card.original_value.should_not be_nil
   end
 
+  it "should set current_value and original_value if amount passed before create" do
+    card = Spree::GiftCard.create(:email => "test@mail.com", :name => "John", :variant_id => create(:variant).id, :amount => 25)
+    card.current_value.should_not be_nil
+    card.original_value.should_not be_nil
+    card.current_value.should eq 25
+    card.original_value.should eq 25
+  end
+
   it 'should only have certain attributes be accessible' do
     subject.class.accessible_attributes.to_a.should eql([
       '', # WTF? no idea why a blank value is being added...
