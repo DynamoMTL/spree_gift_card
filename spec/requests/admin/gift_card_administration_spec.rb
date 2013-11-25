@@ -33,6 +33,7 @@ feature "Admin Gift Card Administration", js: true do
       page.should have_content('First Last')
       Spree::GiftCard.count.should eql(1)
       Spree::GiftCard.first.admin_created.should be_true
+      Spree::GiftCard.first.expired_on.should be_nil
     end
   end
 
