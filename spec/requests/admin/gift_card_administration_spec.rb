@@ -88,4 +88,20 @@ feature "Admin Gift Card Administration", js: true do
     end
   end
 
+  scenario 'shoud have Expire column' do
+    visit spree.admin_gift_cards_path
+
+    within 'table.index' do
+      page.should have_content('Expire')
+    end
+  end
+
+  scenario 'list expired card' do 
+    create :gift_card, name: 'with-exp-date', expired_on: '2013-12-26'
+    visit spree.admin_gift_cards_path
+
+    within 'table.index' do
+      page.should have_content(' 2013-12-26 ')
+    end
+  end
 end
