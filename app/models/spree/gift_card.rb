@@ -23,6 +23,7 @@ module Spree
     before_validation :generate_code, on: :create
     before_validation :set_calculator, on: :create
     before_validation :set_values, on: :create
+    before_validation :set_values_on_update, on: :update
 
     calculated_adjustments
 
@@ -110,5 +111,11 @@ module Spree
       end
     end
 
+    def set_values_on_update
+      if self.original_value == 0 && amount.to_f > 0
+        self.current_value  = amount
+        self.original_value = amount
+      end
+    end
   end
 end
