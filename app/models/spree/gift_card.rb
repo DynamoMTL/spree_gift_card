@@ -106,13 +106,12 @@ module Spree
     end
 
     def set_values
-      if amount.to_f > 0
-        self.current_value  = amount
-        self.original_value = amount
-      else
-        self.current_value  = self.variant.try(:price)
-        self.original_value = self.variant.try(:price)
+      if @amount.to_f > 0
+        self.current_value  = @amount
+        self.original_value = @amount
       end
+      # self.current_value  = self.variant.try(:price)
+      # self.original_value = self.variant.try(:price)
     end
 
     def set_values_on_update
