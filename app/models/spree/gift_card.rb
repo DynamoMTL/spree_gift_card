@@ -5,7 +5,7 @@ module Spree
 
     UNACTIVATABLE_ORDER_STATES = ["complete", "awaiting_return", "returned"]
 
-    attr_accessor :amount
+    attr_writer :amount
     attr_accessible :email, :name, :note, :variant_id, :amount, :order_id, :expired_on
 
     belongs_to :original_order, class_name: 'Order', foreign_key: 'order_id'
@@ -85,6 +85,10 @@ module Spree
 
     def self.find_by_code(code)
       where(code: code.downcase).first
+    end
+
+    def amount
+      original_value
     end
 
     private
