@@ -116,9 +116,9 @@ module Spree
     end
 
     def set_values_on_update
-      if self.original_value == 0 && amount.to_f > 0
-        self.current_value  = amount
-        self.original_value = amount
+      if self.original_value == 0 && @amount.to_f > 0
+        self.current_value  = @amount.to_f
+        self.original_value = @amount.to_f
       end
     end
   end
