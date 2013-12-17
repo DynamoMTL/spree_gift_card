@@ -8,6 +8,31 @@
   </li>
 <% end %>
 
+<% content_for :table_filter_title do %>
+  <%= t(:search) %>
+<% end %>
+
+<% content_for :table_filter do %>
+  <div data-hook="admin_gift_cards_sidebar">
+
+    <%= search_form_for [:admin, @search] do |f| %>
+        <%- locals = {:f => f} %>
+        <div data-hook="admin_gift_cards_index_search">
+          <div class="alpha nine columns">
+            <div class="field">
+              <%= f.label :name_or_email_cont, t(:name_or_email) %>
+              <%= f.text_field :name_or_email_cont, :size => 15 %>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-buttons actions filter-actions" data-hook="admin_gift_cards_index_search_buttons">
+          <%= button t(:search), 'icon-search' %>
+        </div>
+    <% end %>
+  </div>
+<% end %>
+
 <table class="index">
   <thead>
     <tr>
