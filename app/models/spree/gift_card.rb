@@ -94,7 +94,7 @@ module Spree
     private
 
     def generate_code
-      code_length = ENV.fetch('GIFT_CARD_CODE_LENGTH', 21).to_i
+      code_length = SpreeGiftCard.config.code_length.to_i || 21
 
       until self.code.present? && self.class.where(code: self.code).count == 0
         self.code = Digest::SHA1.hexdigest([Time.now, rand].join)[0..(code_length-1)]
