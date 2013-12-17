@@ -16,7 +16,15 @@ module Spree
 
       private
       def collection
-        Spree::GiftCard.order("created_at desc").page(params[:page]).per(Spree::Config[:orders_per_page])
+        return @collection if @collection.present?
+        params[:q] ||= {}
+        @search = super.ransack(params[:q])
+        @collection = @search.result.
+            order("created_at desc").
+            page(params[:page]).
+            per(Spree::Config[:admin_products_per_page])
+
+        @collection
       end
 
       def find_gift_card_variants
