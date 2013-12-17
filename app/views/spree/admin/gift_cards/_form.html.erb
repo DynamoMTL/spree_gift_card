@@ -27,11 +27,15 @@
 
   <div class="clear"></div>
 
-   <div class="alpha five columns">
-    <%= f.field_container :expired_on do %>
-      <%= f.label :expired_on, t(:expires_on) %> <br/>
-      <%= f.error_message_on :expired_on %>
-      <%= f.text_field :expired_on, :value => datepicker_field_value(@gift_card.expired_on), :class => 'datepicker' %>
+  <div class="alpha five columns">
+    <% if SpreeGiftCard.has_expiration? %>
+      <%= f.field_container :expired_on do %>
+        <%= f.label :expired_on, t(:expires_on) %> <br/>
+        <%= f.error_message_on :expired_on %>
+        <%= f.text_field :expired_on, :value => datepicker_field_value(@gift_card.expired_on), :class => 'datepicker' %>
+      <% end %>
+    <% else %>
+      &nbsp;
     <% end %>
   </div>
 

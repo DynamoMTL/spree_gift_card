@@ -19,7 +19,11 @@
       <th><%= t(:note) %></th>
       <th><%= t(:from) %></th>
       <th><%= t(:order) %></th>
-      <th><%= t(:expired_on) %></th>
+
+      <% if SpreeGiftCard.has_expiration? %>
+        <th><%= t(:expired_on) %></th>
+      <% end %>
+
       <th><%= t(:redeemable) %></th>
       <th class="actions"></th>
     </tr>
@@ -35,7 +39,11 @@
         <td><%= card.note %></td>
         <td><%= card.sender %></td>
         <td><%= card.order_number %></td>
-        <td><%= card.expired_on %></td>
+
+        <% if SpreeGiftCard.has_expiration? %>
+          <td><%= card.expired_on %></td>
+        <% end %>
+
         <td><%= card.redeemable? %></td>
         <td class="actions">
           <%= link_to_edit card, no_text: true %> &nbsp;
