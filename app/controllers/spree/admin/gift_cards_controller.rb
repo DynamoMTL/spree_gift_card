@@ -14,6 +14,17 @@ module Spree
         end
       end
 
+      def send_email
+        @gift_card = Spree::GiftCard.find(params[:id])
+        if @gift_card.order_id
+          order = Spree::Order.find(@gift_card.order_id)
+          Spree::OrderMailer.gift_card_email(@gift_card, order).deliver
+          flash[:success] = I18n.t(:email_was_sent)
+        end
+
+        redirect_to admin_gift_cards_path
+      end
+
       private
       def collection
         return @collection if @collection.present?

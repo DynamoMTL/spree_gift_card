@@ -71,6 +71,7 @@
 
         <td><%= card.redeemable? %></td>
         <td class="actions">
+          <%= link_to_with_icon 'icon-email', 'Resend Email', admin_gift_cards_send_email_path(card), no_text: true %> &nbsp;
           <%= link_to_edit card, no_text: true %> &nbsp;
           <%= link_to_delete card, no_text: true %>
         </td>
