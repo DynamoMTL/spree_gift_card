@@ -13,3 +13,4 @@ en:
   transactions: "Transactions"
   value: 'Value'
   expired_on: 'Expire'
+  email_was_sent: 'Email was sent.'
