@@ -8,6 +8,31 @@
   </li>
 <% end %>
 
+<% content_for :table_filter_title do %>
+  <%= t(:search) %>
+<% end %>
+
+<% content_for :table_filter do %>
+  <div data-hook="admin_gift_cards_sidebar">
+
+    <%= search_form_for [:admin, @search] do |f| %>
+        <%- locals = {:f => f} %>
+        <div data-hook="admin_gift_cards_index_search">
+          <div class="alpha nine columns">
+            <div class="field">
+              <%= f.label :name_or_email_cont, t(:name_or_email) %>
+              <%= f.text_field :name_or_email_cont, :size => 15 %>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-buttons actions filter-actions" data-hook="admin_gift_cards_index_search_buttons">
+          <%= button t(:search), 'icon-search' %>
+        </div>
+    <% end %>
+  </div>
+<% end %>
+
 <table class="index">
   <thead>
     <tr>
@@ -19,8 +44,12 @@
       <th><%= t(:note) %></th>
       <th><%= t(:from) %></th>
       <th><%= t(:order) %></th>
-      <th><%= t(:redeemable) %></th>
 
+      <% if SpreeGiftCard.has_expiration? %>
+        <th><%= t(:expired_on) %></th>
+      <% end %>
+
+      <th><%= t(:redeemable) %></th>
       <th class="actions"></th>
     </tr>
   </thead>
@@ -35,10 +64,16 @@
         <td><%= card.note %></td>
         <td><%= card.sender %></td>
         <td><%= card.order_number %></td>
+
+        <% if SpreeGiftCard.has_expiration? %>
+          <td><%= card.expired_on %></td>
+        <% end %>
+
         <td><%= card.redeemable? %></td>
         <td class="actions">
-          <%= link_to_edit card %> &nbsp;
-          <%= link_to_delete card %>
+          <%= link_to_with_icon 'icon-email', 'Resend Email', admin_gift_cards_send_email_path(card), no_text: true %> &nbsp;
+          <%= link_to_edit card, no_text: true %> &nbsp;
+          <%= link_to_delete card, no_text: true %>
         </td>
       </tr>
     <% end %>

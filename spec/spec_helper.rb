@@ -3,6 +3,11 @@ require 'simplecov'
 require 'pry'
 require 'honeybadger'
 require 'delayed_job_active_record'
+require 'timecop'
+
+require 'capybara/rspec'
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 
 SimpleCov.start do
   add_filter '/config/'

@@ -22,7 +22,7 @@ describe Spree::GiftCard do
   end
 
   it 'should only have certain attributes be accessible' do
-    subject.class.accessible_attributes.to_a.should eql([
+    subject.class.accessible_attributes.sort.to_a.should eql([
       '', # WTF? no idea why a blank value is being added...
       'email',
       'name',
@@ -31,8 +31,36 @@ describe Spree::GiftCard do
       'amount',
       'order_id',
       'calculator_type',
-      'calculator_attributes'
-    ])
+      'calculator_attributes',
+      'expired_on'
+    ].sort)
+  end
+
+  context '#expired?' do
+    let(:gift_card_without_expiration) { create(:gift_card, original_order: create(:completed_order_with_totals), variant: create(:variant, price: 25)) }
+    let(:gift_card_with_expiration) { create(:gift_card, expired_on: '2013-11-24',variant: create(:variant, price: 25)) }
+
+    it 'should not be expired if no expiration date given' do
+      gift_card_without_expiration.expired?.should be false
+    end
+
+    it 'should not be expired if expired_on is in future' do
+      Timecop.freeze(2013, 11, 20) do
+        gift_card_with_expiration.expired?.should be false
+      end
+    end
+
+    it 'should be expired if expired_on is in past' do
+      Timecop.freeze(2013, 12, 20) do
+        gift_card_with_expiration.expired?.should be true
+      end
+    end
+
+    it 'should not be expired on the same day as the expiration day' do
+      Timecop.freeze(2013, 11, 24) do
+        gift_card_with_expiration.expired?.should be false
+      end
+    end
   end
 
   context '#activatable?' do
@@ -63,6 +91,11 @@ describe Spree::GiftCard do
     it 'should not be activatable if original order is not complete' do
       gift_card.original_order.stub(state: 'cart')
       gift_card.order_activatable?(mock_model(Spree::Order, state: 'complete', created_at: (gift_card.created_at + 1.second))).should be_false
+    end
+
+    it 'should not be activatable if card is expired' do
+      gift_card.stub :expired? => true
+      gift_card.order_activatable?(mock_model(Spree::Order, state: 'cart', created_at: (gift_card.created_at + 1.second))).should be_false
     end
   end
 

@@ -4,7 +4,9 @@ describe Spree::Calculator::GiftCard do
 
   let(:calculator) { Spree::Calculator::GiftCard.new }
   let(:gift_card) { create(:gift_card, variant: create(:variant, price: 25)) }
-  let(:order) { mock_model Spree::Order, adjustments: [], item_total: 10, ship_total: 5, tax_total: 1 }
+  let(:order) { mock_model Spree::Order, adjustments: adjustments, item_total: 10, ship_total: 5, tax_total: 1 }
+  let(:adjustments) { double(:adjustments, eligible: eligible_adjustments) }
+  let(:eligible_adjustments) { double(:eligible_adjustments, :select => []) }
 
   it '.description' do
     Spree::Calculator::GiftCard.description.should eql('Gift Card Calculator')

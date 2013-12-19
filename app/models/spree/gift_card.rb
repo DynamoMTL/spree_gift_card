@@ -5,8 +5,8 @@ module Spree
 
     UNACTIVATABLE_ORDER_STATES = ["complete", "awaiting_return", "returned"]
 
-    attr_accessor :amount
-    attr_accessible :email, :name, :note, :variant_id, :amount, :order_id
+    attr_writer :amount
+    attr_accessible :email, :name, :note, :variant_id, :amount, :order_id, :expired_on
 
     belongs_to :original_order, class_name: 'Order', foreign_key: 'order_id'
     belongs_to :variant
@@ -23,6 +23,7 @@ module Spree
     before_validation :generate_code, on: :create
     before_validation :set_calculator, on: :create
     before_validation :set_values, on: :create
+    before_validation :set_values_on_update, on: :update
 
     calculated_adjustments
 
@@ -70,7 +71,12 @@ module Spree
     end
 
     def redeemable?
-      (original_order && original_order.complete?) || admin_created?
+      !expired? && ((original_order && original_order.complete?) || admin_created?)
+    end
+
+    def expired?
+      return false if expired_on.nil?
+      expired_on < Date.today
     end
 
     def self.list_redeemable_by_email(email)
@@ -81,10 +87,14 @@ module Spree
       where(code: code.downcase).first
     end
 
+    def amount
+      original_value
+    end
+
     private
 
     def generate_code
-      code_length = ENV.fetch('GIFT_CARD_CODE_LENGTH', 21).to_i
+      code_length = SpreeGiftCard.config.code_length.to_i || 21
 
       until self.code.present? && self.class.where(code: self.code).count == 0
         self.code = Digest::SHA1.hexdigest([Time.now, rand].join)[0..(code_length-1)]
@@ -96,9 +106,19 @@ module Spree
     end
 
     def set_values
-      self.current_value  = self.variant.try(:price)
-      self.original_value = self.variant.try(:price)
+      if @amount.to_f > 0
+        self.current_value  = @amount
+        self.original_value = @amount
+      end
+      # self.current_value  = self.variant.try(:price)
+      # self.original_value = self.variant.try(:price)
     end
 
+    def set_values_on_update
+      if self.original_value == 0 && @amount.to_f > 0
+        self.current_value  = @amount.to_f
+        self.original_value = @amount.to_f
+      end
+    end
   end
 end
