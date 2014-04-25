@@ -1,5 +1,5 @@
 Spree::Core::Engine.routes.draw do
-  resources :gift_cards
+  resources :gift_cards, path: 'giftcards'
   namespace :admin do
     resources :gift_cards
   end
